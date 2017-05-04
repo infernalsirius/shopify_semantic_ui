@@ -1,0 +1,90 @@
+/* See https://community.algolia.com/shopify/hogan-helpers.html */
+
+(function (algolia) {
+  'use strict';
+
+  var _ = algolia._;
+
+  var formatPrice = function formatPrice (value) {
+    return algolia.formatMoney(+value * 100);
+  };
+
+  algolia.helpers = {
+    formattedPrice: function formattedPrice (text, render) {
+      return formatPrice(render(text));
+    },
+    formattedPriceWithoutDecimals: function formattedPriceWithoutDecimals (text, render) {
+      return formatPrice(render(text)).replace(/\.\d+$/, '');
+    },
+    formattedPriceWithComparison: function formattedPriceWithComparison () {
+      var comparing = +this.compare_at_price && +this.compare_at_price > +this.price,
+          discount_ratio = 1.0 - this.price_ratio,
+          res = '<b>' + formatPrice(this.price) + '</b>';
+      if (comparing) {
+        res += ' <span class="ais-hit--price-striked"><span>' + formatPrice(this.compare_at_price) + '</span></span> ';
+        res += ' <span class="ais-hit--price-discount" style="font-weight: ' + (Math.floor(discount_ratio * 10) * 100) + ';">-' + Math.floor(discount_ratio * 100) + '%</span>';
+      }
+
+      return res;
+    },
+    fullTitle: function fullTitle () {
+      var res = this.title;
+      if (this.variant_title && this.variant_title !== 'Default Title') {
+        res += ' (' + this.variant_title + ')';
+      }
+
+      return res;
+    },
+    fullHTMLTitle: function fullHTMLTitle () {
+      var res = this._highlightResult.title.value;
+      if (this.variant_title && this.variant_title !== 'Default Title') {
+        res += ' <span class="algolia-variant">(' + this._highlightResult.variant_title.value + ')</span>';
+      }
+
+      return res;
+    },
+    floor: function floor (text, render) {
+      return '' + Math.floor(+render(text));
+    },
+    ceil: function ceil (text, render) {
+      return '' + Math.ceil(+render(text));
+    },
+    sizedImage: function sizedImage (text, render) {
+      if (!this.image) {
+        return 'http://cdn.shopify.com/s/images/admin/no-image-compact.gif';
+      }
+      var size = render(text).replace(/^\s+|\s+$/g, ''); // Render and trim
+      if (size === 'original') {
+        return this.image;
+      }
+      return this.image.replace(/\/(.*)\.(\w{2,4})/g, '/$1_' + size + '.$2');
+    }
+  };
+
+  _.forEach(['pico', 'icon', 'thumb', 'small', 'compact', 'medium', 'large', 'grande', 'original'], function (size) {
+    algolia.helpers[size + 'Image'] = (function (_size) {
+      return function () {
+        if (!this.image) {
+          return 'http://cdn.shopify.com/s/images/admin/no-image-compact.gif';
+        }
+        if (_size === 'original') {
+          return this.image;
+        }
+        return this.image.replace(/\/(.*)\.(\w{2,4})/g, '/$1_' + _size + '.$2');
+      };
+    })(size); // We need to create a new scope so that the internal size has the good value.
+  });
+
+  /* Create an Hogan lambda, which doesn't respect the mustache doc */
+  algolia.hoganHelpers = _.reduce(algolia.helpers, function (res, helper, name) {
+    res[name] = function () {
+      return function (text) {
+        var render = function (value) {
+          return Hogan.compile(value, algolia.hoganOptions).render(this);
+        }.bind(this);
+        return helper.call(this, text, render);
+      }.bind(this);
+    };
+    return res;
+  }, {});
+}(algoliaShopify));

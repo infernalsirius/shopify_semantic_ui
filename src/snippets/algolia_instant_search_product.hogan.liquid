@@ -1,0 +1,49 @@
+<div class="ais-hit ais-product" data-handle="[[ handle ]]" data-variant-id="[[ objectID ]]">
+  <div class="ais-hit--picture" style="background-image: url('[[# helpers.mediumImage ]][[/ helpers.mediumImage ]]')"></div>
+
+  <div class="ais-hit--details">
+    <p class="ais-hit--title">
+      <a href="/products/[[ handle ]]?variant=[[ objectID ]]" onclick="void(0)" title="[[# helpers.fullTitle ]][[/ helpers.fullTitle ]]">
+        [[# helpers.fullHTMLTitle ]][[/ helpers.fullHTMLTitle ]]
+      </a>
+    </p>
+    <p class="ais-hit--subtitle" title="[[ product_type ]][[# vendor ]] by [[ vendor ]][[/ vendor ]]">
+      [[& _highlightResult.product_type.value ]]
+      [[# vendor ]] by [[& _highlightResult.vendor.value ]][[/ vendor ]]
+    </p>
+    <p class="ais-hit--price">[[# helpers.formattedPriceWithComparison ]][[/ helpers.formattedPriceWithComparison ]]</p>
+    <!-- Extra info examples - Remove the display: none to show them -->
+    <p class="ais-hit--info" style="display: none">
+      [[# sku ]]
+        <span class="algolia-sku">[[& _highlightResult.sku.value ]]</span>
+      [[/ sku ]]
+      [[# barcode ]]
+        <span class="algolia-barcode">[[& _highlightResult.barcode.value ]]</span>
+      [[/ barcode ]]
+      [[# weight ]]
+        <span class="algolia-weight">[[ weight ]]</span>
+      [[/ weight ]]
+      [[^ taxable ]]
+        <span class="algolia-taxable">Tax free</span>
+      [[/ taxable ]]
+    </p>
+    <!-- Tags example - Remove the display: none to show them -->
+    <p class="ais-hit--tags" style="display: none">
+      [[# _highlightResult.tags ]]
+        <span class="ais-hit--tag">[[& value ]]</span>
+      [[/ _highlightResult.tags ]]
+    </p>
+    <p class="ais-hit--cart">
+      [[# can_order ]]
+        <a class="ais-hit--cart-button" href="/cart/[[ objectID ]]:1">
+          Add to cart
+        </a>
+      [[/ can_order ]]
+      [[^ can_order ]]
+        <span class="ais-hit--cart-button ais-hit--cart-button__disabled">
+          Out of stock
+        </span>
+      [[/ can_order ]]
+    </p>
+  </div>
+</div>
