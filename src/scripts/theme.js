@@ -1,7 +1,7 @@
 window.slate = window.slate || {};
 window.theme = window.theme || {};
 
-/*================ Slate ================*/
+/* ================ Slate ================*/
 // =require slate/a11y.js
 // =require slate/cart.js
 // =require slate/utils.js
@@ -11,10 +11,10 @@ window.theme = window.theme || {};
 // =require slate/images.js
 // =require slate/variants.js
 
-/*================ Sections ================*/
+/* ================ Sections ================*/
 // =require sections/product.js
 
-/*================ Templates ================*/
+/* ================ Templates ================*/
 // =require templates/customers-addresses.js
 // =require templates/customers-login.js
 
