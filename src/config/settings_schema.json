@@ -1,11 +1,11 @@
 [
   {
-    "name": "theme_info",
-    "theme_name": "Slate",
+    "name": "semantic_example",
+    "theme_name": "Seantic UI Shopify",
     "theme_version": "1.0.0",
-    "theme_author": "Shopify",
-    "theme_documentation_url": "https://github.com/Shopify/slate",
-    "theme_support_email": "theme-support@shopify.com"
+    "theme_author": "Patrick Meunier",
+    "theme_documentation_url": "",
+    "theme_support_email": "patrick.meunier@me.com"
   },
   {
     "name": "Typography",

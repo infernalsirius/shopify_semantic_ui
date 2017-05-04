@@ -12,19 +12,19 @@
     <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
   {% endif %}
 
-  {% capture seo_title %}
-    {{ page_title }}
-    {% if current_tags %}
-      {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
-    {% endif %}
-    {% if current_page != 1 %}
-      &ndash; {{ 'general.meta.page' | t: page: current_page }}
-    {% endif %}
-    {% unless page_title contains shop.name %}
-      &ndash; {{ shop.name }}
-    {% endunless %}
-  {% endcapture %}
-  <title>{{ seo_title }}</title>
+  {%- capture seo_title -%}
+    {{- page_title -}}
+    {%- if current_tags -%}
+      {%- assign meta_tags = current_tags | join: ', ' -%} &ndash; {{- 'general.meta.tags' | t: tags: meta_tags -}}
+    {%- endif -%}
+    {%- if current_page != 1 -%}
+      &ndash; {{- 'general.meta.page' | t: page: current_page -}}
+    {%- endif -%}
+    {%- unless page_title contains shop.name -%}
+      &ndash; {{- shop.name -}}
+    {%- endunless -%}
+  {%- endcapture -%}
+  <title>{{- seo_title -}}</title>
 
   {% if page_description %}
     <meta name="description" content="{{ page_description | escape }}">
@@ -32,7 +32,7 @@
 
   {% include 'social-meta-tags' %}
 
-  {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'theme.scss' | asset_url | stylesheet_tag }}
 
   <script>
     document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
@@ -46,17 +46,6 @@
       moneyFormat: {{ shop.money_format | json }}
     };
   </script>
-
-  {% if template.directory == 'customers' %}
-    <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script><!--<![endif]-->
-    <!--[if lte IE 9]><script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script><![endif]-->
-  {% endif %}
-
-  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
-  <!--[if lt IE 9]><script src="{{ 'vendor.js' | asset_url }}"></script><![endif]-->
-
-  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'theme.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
-  <!--[if lt IE 9]><script src="{{ 'theme.js' | asset_url }}"></script><![endif]-->
 
   {{ content_for_header }}
 </head>
@@ -73,5 +62,18 @@
 
   {% section 'footer' %}
 
+  <script src="https://unpkg.com/jquery@3.2.1/dist/jquery.min.js" charset="utf-8"></script>
+  {% if template.directory == 'customers' %}
+    <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script><!--<![endif]-->
+    <!--[if lte IE 9]><script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script><![endif]-->
+  {% endif %}
+
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+  <!--[if lt IE 9]><script src="{{ 'vendor.js' | asset_url }}"></script><![endif]-->
+
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'theme.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+  <!--[if lt IE 9]><script src="{{ 'theme.js' | asset_url }}"></script><![endif]-->
+  {% include 'dropdown-init'%}
+  {% include 'search-autocomplete' %}
 </body>
 </html>

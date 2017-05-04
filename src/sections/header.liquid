@@ -1,115 +1,177 @@
-<style>
-  {% if section.settings.logo != blank %}
-    .site-header__logo-image {
-      max-width: {{ section.settings.logo_max_width }}px;
-    }
-  {% endif %}
+<style >
+  ul {
+    list-style: none;
+  }
+  .hidden.menu {
+    display: none;
+  }
 
-  {% if section.settings.align_logo == 'left' %}
-    .site-header__logo-image {
-      margin: 0;
+  .masthead.segment {
+    min-height: 700px;
+    padding: 1em 0em;
+  }
+  .masthead .logo.item img {
+    margin-right: 1em;
+  }
+  .masthead .ui.menu .ui.button {
+    margin-left: 0.5em;
+  }
+  .masthead h1.ui.header {
+    margin-top: 3em;
+    margin-bottom: 0em;
+    font-size: 4em;
+    font-weight: normal;
+  }
+  .masthead h2 {
+    font-size: 1.7em;
+    font-weight: normal;
+  }
+
+  .ui.vertical.stripe {
+    padding: 8em 0em;
+  }
+  .ui.vertical.stripe h3 {
+    font-size: 2em;
+  }
+  .ui.vertical.stripe .button + h3,
+  .ui.vertical.stripe p + h3 {
+    margin-top: 3em;
+  }
+  .ui.vertical.stripe .floated.image {
+    clear: both;
+  }
+  .ui.vertical.stripe p {
+    font-size: 1.33em;
+  }
+  .ui.vertical.stripe .horizontal.divider {
+    margin: 3em 0em;
+  }
+
+  .quote.stripe.segment {
+    padding: 0em;
+  }
+  .quote.stripe.segment .grid .column {
+    padding-top: 5em;
+    padding-bottom: 5em;
+  }
+
+  .footer.segment {
+    padding: 5em 0em;
+  }
+
+  .secondary.pointing.menu .toc.item {
+    display: none;
+  }
+
+  @media only screen and (max-width: 700px) {
+    .ui.fixed.menu {
+      display: none !important;
     }
-  {% endif %}
+    .secondary.pointing.menu .item,
+    .secondary.pointing.menu .menu {
+      display: none;
+    }
+    .secondary.pointing.menu .toc.item {
+      display: block;
+    }
+    .masthead.segment {
+      min-height: 350px;
+    }
+    .masthead h1.ui.header {
+      font-size: 2em;
+      margin-top: 1.5em;
+    }
+    .masthead h2 {
+      margin-top: 0.5em;
+      font-size: 1.5em;
+    }
+  }
 </style>
-<div data-section-id="{{ section.id }}" data-section-type="header-section">
-  <header role="banner">
-    {% if template.name == 'index' %}
-      <h1 itemscope itemtype="http://schema.org/Organization">
-    {% else %}
-      <div class="h1" itemscope itemtype="http://schema.org/Organization">
-    {% endif %}
-        <a href="/" itemprop="url" class="site-logo{% if section.settings.logo != blank %} site-header__logo-image{% endif %}">
-          {% if section.settings.logo != blank %}
-            {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
-            <img src="{{ section.settings.logo | img_url: image_size }}"
-                 srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x"
-                 alt="{{ section.settings.logo.alt | default: shop.name }}"
-                 itemprop="logo">
-          {% else %}
-            {{ shop.name }}
-          {% endif %}
-        </a>
-    {% if template.name == 'index' %}
-      </h1>
-    {% else %}
+<script>
+  $(document).ready(function() {
+    // fix menu when passed
+    $('.masthead').visibility({
+      once: false,
+      onBottomPassed: function() {
+        $('.fixed.menu').transition('fade in');
+      },
+      onBottomPassedReverse: function() {
+        $('.fixed.menu').transition('fade out');
+      }
+    });
+  });
+</script>
+
+<!-- Following Menu -->
+<ul class="ui large top fixed hidden menu">
+  <div class="ui container">
+    {% for link in linklists[section.settings.main_linklist].links %}
+      {%- assign child_list_handle = link.title | handleize -%}
+      {% if menus[child_list_handle].links != blank %}
+        <li class="{% if link.active %}active{% endif %} ui simple dropdown item">
+          {{ link.title }}
+          <ul class="menu">
+            {% for childlink in menus[child_list_handle].links %}
+              <li {% if childlink.active %}class="active"{% endif %}>
+                <a href="{{ childlink.url }}" class="item">{{ childlink.title | escape }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% else %}
+        <li {% if link.active %}class="active"{% endif %}>
+          <a href="{{ link.url }}" class="item">{{ link.title }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+    <div class="ui right fluid search item">
+      <div class="ui transparent icon input">
+        <i class="search icon"></i>
+        <input class="prompt" name="q" type="text" placeholder="{{ 'general.search.placeholder' | t }}" value="{{ search.terms | escape }}"
+        <div class="results"></div>
       </div>
-    {% endif %}
+    </div>
+  </div>
+</ul>
 
-    <a href="/cart">
-      {% include 'icon-cart' %}
-      {{ 'layout.cart.title' | t }}
-      ({{ cart.item_count }} {{ 'layout.cart.items_count' | t: count: cart.item_count }})
-    </a>
-
-    {% if shop.customer_accounts_enabled %}
-      <ul>
-        {% if customer %}
-          <li>
-            {% if customer.first_name != blank %}
-              {% capture first_name %}<a href="/account">{{ customer.first_name }}</a>{% endcapture %}
-              {{ 'layout.customer.logged_in_as_html' | t: first_name: first_name }}
-            {% else %}
-              <a href="/account">{{ 'layout.customer.account' | t }}</a>
-            {% endif %}
-          </li>
-          <li>
-            {{ 'layout.customer.log_out' | t | customer_logout_link }}
-          </li>
-        {% else %}
-          <li>
-            {{ 'layout.customer.log_in' | t | customer_login_link }}
-          </li>
-          <li>
-            {{ 'layout.customer.create_account' | t | customer_register_link }}
-          </li>
-        {% endif %}
-      </ul>
-    {% endif %}
-
-    <form action="/search" method="get" role="search">
-      <label for="Search" class="label-hidden">
-        {{ 'general.search.placeholder' | t }}
-      </label>
-      <input type="search"
-             name="q"
-             id="Search"
-             value="{{ search.terms | escape }}"
-             placeholder="{{ 'general.search.placeholder' | t }}">
-      <button type="submit" class="btn">
-        {% include 'icon-search' %}
-        <span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span>
-      </button>
-    </form>
-
-  </header>
-
-  <nav role="navigation">
-    <ul class="site-nav">
-      {% for link in linklists[section.settings.main_linklist].links %}
-        {%- assign child_list_handle = link.title | handleize -%}
-        {% if menus[child_list_handle].links != blank %}
-          <li class="site-nav--has-submenu{% if link.active %} site-nav--active{% endif %}">
-            <a href="{{ link.url }}" class="site-nav__link">
+<!-- Secondary menu -->
+<div class="pusher">
+  <div class="ui inverted vertical masthead center aligned segment">
+    <div class="ui container">
+      <ul class="ui large secondary inverted menu">
+        <li class="header item"> Shopify Semantic UI</li>
+        {% for link in linklists[section.settings.main_linklist].links %}
+          {%- assign child_list_handle = link.title | handleize -%}
+          {% if menus[child_list_handle].links != blank %}
+            <li class="{% if link.active %}active{% endif %} ui simple dropdown item">
               {{ link.title }}
-              {% include 'icon-arrow-down' %}
-            </a>
-            <ul class="site-nav__submenu">
-              {% for childlink in menus[child_list_handle].links %}
-                <li {% if childlink.active %}class="site-nav--active"{% endif %}>
-                  <a href="{{ childlink.url }}" class="site-nav__link">{{ childlink.title | escape }}</a>
-                </li>
-              {% endfor %}
-            </ul>
-          </li>
-        {% else %}
-          <li {% if link.active %}class="site-nav--active"{% endif %}>
-            <a href="{{ link.url }}" class="site-nav__link">{{ link.title }}</a>
-          </li>
-        {% endif %}
-      {% endfor %}
-    </ul>
-  </nav>
+              <ul class="menu">
+                {% for childlink in menus[child_list_handle].links %}
+                  <li {% if childlink.active %}class="active"{% endif %}>
+                    <a href="{{ childlink.url }}" class="item">{{ childlink.title | escape }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
+          {% else %}
+            <li {% if link.active %}class="active"{% endif %}>
+              <a href="{{ link.url }}" class="item">{{ link.title }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+        <div class="ui right fluid search item">
+          <div class="ui transparent icon input">
+            <i class="search icon"></i>
+            <input class="prompt" name="q" type="text" placeholder="{{ 'general.search.placeholder' | t }}" value="{{ search.terms | escape }}"
+            <div class="results"></div>
+          </div>
+        </div>
+      </ul>
+    </div>
+  </div>
 </div>
+
+
 
 {% schema %}
   {

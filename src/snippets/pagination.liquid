@@ -1,3 +1,7 @@
-<div class="pagination">
-  {{ paginate | default_pagination }}
+<div class="ui pagination menu">
+  {% for part in paginate.parts %}
+    {% if part.is_link %}
+      <a class="item" href="{{ part.url }}">{{ part.title}}</a>
+    {% endif %}
+  {% endfor %}
 </div>
