@@ -89,3 +89,4 @@ typings/
 .env
 /shrinkwrap.yaml
 /dist
+/searchResponse.json
