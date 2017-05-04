@@ -90,3 +90,4 @@ typings/
 /shrinkwrap.yaml
 /dist
 /searchResponse.json
+/src/assets/algolia_config.js.liquid
