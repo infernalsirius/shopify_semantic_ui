@@ -48,6 +48,42 @@
   </script>
 
   {{ content_for_header }}
+  {%- if template == "search" -%}
+  <!-- Algolia head -->
+    <script type="text/template" id="template_algolia_money_format">{% include 'algolia_money_format' %}</script>
+    <script type="text/template" id="template_algolia_autocomplete">{% include 'algolia_autocomplete.hogan' %}</script>
+    <script type="text/template" id="template_algolia_autocomplete.css">{% include 'algolia_autocomplete.css.hogan' %}</script>
+    <script type="text/template" id="template_algolia_autocomplete_collection">{% include 'algolia_autocomplete_collection.hogan' %}</script>
+    <script type="text/template" id="template_algolia_autocomplete_collections_empty">{% include 'algolia_autocomplete_collections_empty.hogan' %}</script>
+    <script type="text/template" id="template_algolia_autocomplete_article">{% include 'algolia_autocomplete_article.hogan' %}</script>
+    <script type="text/template" id="template_algolia_autocomplete_articles_empty">{% include 'algolia_autocomplete_articles_empty.hogan' %}</script>
+    <script type="text/template" id="template_algolia_autocomplete_product">{% include 'algolia_autocomplete_product.hogan' %}</script>
+    <script type="text/template" id="template_algolia_autocomplete_products_empty">{% include 'algolia_autocomplete_products_empty.hogan' %}</script>
+    <script type="text/template" id="template_algolia_autocomplete_footer">{% include 'algolia_autocomplete_footer.hogan' %}</script>
+    <script type="text/template" id="template_algolia_instant_search">{% include 'algolia_instant_search.hogan' %}</script>
+    <script type="text/template" id="template_algolia_instant_search.css">{% include 'algolia_instant_search.css.hogan' %}</script>
+    <script type="text/template" id="template_algolia_instant_search_stats">{% include 'algolia_instant_search_stats.hogan' %}</script>
+    <script type="text/template" id="template_algolia_instant_search_facet_item">{% include 'algolia_instant_search_facet_item.hogan' %}</script>
+    <script type="text/template" id="template_algolia_instant_search_current_refined_values_item">{% include 'algolia_instant_search_current_refined_values_item.hogan' %}</script>
+    <script type="text/template" id="template_algolia_instant_search_product">{% include 'algolia_instant_search_product.hogan' %}</script>
+    <script type="text/template" id="template_algolia_instant_search_no_result">{% include 'algolia_instant_search_no_result.hogan' %}</script>
+    {{ '//cdn.jsdelivr.net/fontawesome/4.4.0/css/font-awesome.min.css' | stylesheet_tag }}
+    {{ '//cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css' | stylesheet_tag }}
+    {{ '//cdn.polyfill.io/v2/polyfill.min.js' | script_tag }}
+    {{ '//cdn.jsdelivr.net/lodash/3.7.0/lodash.min.js' | script_tag }}
+    {{ '//cdn.jsdelivr.net/jquery/2/jquery.min.js' | script_tag }}
+    {{ '//cdn.jsdelivr.net/hogan.js/3/hogan.min.js' | script_tag }}
+    {{ '//cdn.jsdelivr.net/autocomplete.js/0.24.2/autocomplete.jquery.min.js' | script_tag }}
+    {{ '//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js' | script_tag }}
+    {{ '//cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js' | script_tag }}
+    {{ 'algolia_config.js' | asset_url | script_tag }}
+    {{ 'algolia_init.js' | asset_url | script_tag }}
+    {{ 'algolia_helpers.js' | asset_url | script_tag }}
+    {{ 'algolia_autocomplete.js' | asset_url | script_tag }}
+    {{ 'algolia_facets.js' | asset_url | script_tag }}
+    {{ 'algolia_sort_orders.js' | asset_url | script_tag }}
+    {{ 'algolia_instant_search.js' | asset_url | script_tag }}
+  {%- endif -%}
 </head>
 
 <body id="{{ page_title | handle }}" class="template-{{ template.name | handle }}">

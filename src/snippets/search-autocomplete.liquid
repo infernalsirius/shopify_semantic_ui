@@ -5,7 +5,9 @@
       // debug: true,
       // verbose: true,
       showNoResults: true,
-      cache: "local",
+      cache: true,
+      fullTextSearch: "exact",
+      transition: "fade",
       apiSettings: {
         // url: "https://shopify-proof-of-concept.myshopify.com/search?view=json&q={query}",
         url: "https://localhost:3000/search?view=json&q={query}",
@@ -16,7 +18,7 @@
         // categoryName    : 'name',        // name of category (category view)
         // categoryResults : 'results',     // array of results (category view)
         // description     : 'description', // result description
-        // image           : 'thumbnail',       // result image
+        image           : 'thumbnail',       // result image
         // price           : 'price',       // result price
         results         : 'results',     // array of results (standard)
         title           : 'title',       // result title
