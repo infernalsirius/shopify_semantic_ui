@@ -87,41 +87,27 @@
     }
   }
 </style>
-<script>
-  $(document).ready(function() {
-    // fix menu when passed
-    $('.masthead').visibility({
-      once: false,
-      onBottomPassed: function() {
-        $('.fixed.menu').transition('fade in');
-      },
-      onBottomPassedReverse: function() {
-        $('.fixed.menu').transition('fade out');
-      }
-    });
-  });
-</script>
+
 
 <!-- Following Menu -->
-<ul class="ui large top fixed hidden menu">
+<div class="ui large top fixed hidden menu">
   <div class="ui container">
     {% for link in linklists[section.settings.main_linklist].links %}
       {%- assign child_list_handle = link.title | handleize -%}
       {% if menus[child_list_handle].links != blank %}
-        <li class="{% if link.active %}active{% endif %} ui simple dropdown item">
+        <div class="{% if link.active %}active{% endif %} ui simple dropdown item">
           {{ link.title }}
-          <ul class="menu">
+          <i class="dropdown icon"></i>
+          <div class="menu transition hidden">
             {% for childlink in menus[child_list_handle].links %}
-              <li {% if childlink.active %}class="active"{% endif %}>
-                <a href="{{ childlink.url }}" class="item">{{ childlink.title | escape }}</a>
-              </li>
+              <a href="{{ childlink.url }}" class="item {% if childlink.active %}active{% endif %}">{{ childlink.title | escape }}</a>
             {% endfor %}
-          </ul>
-        </li>
+          </div>
+        </div>
       {% else %}
-        <li {% if link.active %}class="active"{% endif %}>
+        <div {% if link.active %}class="active"{% endif %}>
           <a href="{{ link.url }}" class="item">{{ link.title }}</a>
-        </li>
+        </div>
       {% endif %}
     {% endfor %}
     <div class="ui right fluid search item">
@@ -132,46 +118,50 @@
       </div>
     </div>
   </div>
-</ul>
+</div>
 
 <!-- Secondary menu -->
 <div class="pusher">
-  <div class="ui inverted vertical masthead center aligned segment">
+  <div class="ui inverted vertical segment">
     <div class="ui container">
-      <ul class="ui large secondary inverted menu">
-        <li class="header item"> Shopify Semantic UI</li>
+      <div class="ui large secondary inverted menu">
+        <div class="header item"> Shopify Semantic UI</li>
         {% for link in linklists[section.settings.main_linklist].links %}
           {%- assign child_list_handle = link.title | handleize -%}
           {% if menus[child_list_handle].links != blank %}
-            <li class="{% if link.active %}active{% endif %} ui simple dropdown item">
+            <div class="ui dropdown item">
               {{ link.title }}
-              <ul class="menu">
+              <i class="dropdown icon"></i>
+              <div class="menu transition hidden">
                 {% for childlink in menus[child_list_handle].links %}
-                  <li {% if childlink.active %}class="active"{% endif %}>
-                    <a href="{{ childlink.url }}" class="item">{{ childlink.title | escape }}</a>
-                  </li>
+                  <a href="{{ childlink.url }}" class="item {% if childlink.active %}active{% endif %}">{{ childlink.title | escape }}</a>
                 {% endfor %}
-              </ul>
-            </li>
+              </div>
+            </div>
           {% else %}
-            <li {% if link.active %}class="active"{% endif %}>
+            <div {% if link.active %}class="active"{% endif %}>
               <a href="{{ link.url }}" class="item">{{ link.title }}</a>
-            </li>
+            </div>
           {% endif %}
         {% endfor %}
-        <div class="ui right fluid search item">
-          <div class="ui transparent icon input">
+        <div class="ui right item">
+          <div class="ui transparent inverted left icon input">
             <i class="search icon"></i>
-            <input class="prompt" name="q" type="text" placeholder="{{ 'general.search.placeholder' | t }}" value="{{ search.terms | escape }}"
+            <input class="prompt" name="q" type="text" placeholder="{{ 'general.search.placeholder' | t }}" value="{{ search.terms | escape }}">
             <div class="results"></div>
+          </div>
+          <div class="ui dropdown item">
+            Simple search
+            <i class="dropdown icon"></i>
+            <div class="menu transition hidden">
+              <a class="item" href="#">Advanced search</a>
+            </div>
           </div>
         </div>
       </ul>
     </div>
   </div>
 </div>
-
-
 
 {% schema %}
   {
