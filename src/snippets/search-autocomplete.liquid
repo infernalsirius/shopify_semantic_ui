@@ -1,0 +1,29 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.ui.search').search({
+      minCharacters: 3,
+      // debug: true,
+      // verbose: true,
+      showNoResults: true,
+      cache: "local",
+      apiSettings: {
+        // url: "https://shopify-proof-of-concept.myshopify.com/search?view=json&q={query}",
+        url: "https://localhost:3000/search?view=json&q={query}",
+        "set loading": true,
+      },
+      fields: {
+        // categories      : 'results',     // array of categories (category view)
+        // categoryName    : 'name',        // name of category (category view)
+        // categoryResults : 'results',     // array of results (category view)
+        // description     : 'description', // result description
+        // image           : 'thumbnail',       // result image
+        // price           : 'price',       // result price
+        results         : 'results',     // array of results (standard)
+        title           : 'title',       // result title
+        // action          : 'action',      // "view more" object name
+        // actionText      : 'text',        // "view more" text
+        // url             : 'url'          // "view more" url
+      },
+    });
+  });
+</script>
