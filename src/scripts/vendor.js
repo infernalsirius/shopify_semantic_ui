@@ -1,18 +1,97 @@
-/*!
- * modernizr.min.js
- */
+// =require vendor/jquery.min.js
 // =require vendor/modernizr.min.js
-
 // =require vendor/semantic-js/semantic.min.js
-// =require vendor/semantic-js/components/dropdown.min.js
+// =require vendor/typeahead-js/typeahead.jquery.min.js
+// =require vendor/typeahead-js/bloodhound.min.js
 
-// Attempts to preserve comments that likely contain licensing information,
-// even if the comment does not have directives such as `@license` or `/*!`.
-//
-// Implemented via the [`uglify-save-license`](https://github.com/shinnn/uglify-save-license)
-// module, this option preserves a comment if one of the following is true:
-//
-// 1. The comment is in the *first* line of a file
-// 2. A regular expression matches the string of the comment.
-//    For example: `MIT`, `@license`, or `Copyright`.
-// 3. There is a comment at the *previous* line, and it matches 1, 2, or 3.
+$(document).ready(function() {
+
+  /* !
+   *   Semantic UI dropdown code
+   */
+
+  $('.dropdown').dropdown({
+    // you can use any ui transition
+    transition: 'drop',
+  });
+
+  /* !
+   *   Semantic UI fade in/fade out menu code
+   */
+
+  $('.masthead').visibility({
+    once: false,
+    onBottomPassed: function() {
+      $('.fixed.menu').transition('fade in');
+    },
+    onBottomPassedReverse: function() {
+      $('.fixed.menu').transition('fade out');
+    },
+  });
+
+  /* !
+   *   Semantic UI autocomplete code
+   */
+
+  // $('.ui.search').search({
+  //   minCharacters: 3,
+  //   // debug: true,
+  //   // verbose: true,
+  //   showNoResults: true,
+  //   transition: 'fade',
+  //   apiSettings: {
+  //     // url: "https://shopify-proof-of-concept.myshopify.com/search?view=json&q={query}",
+  //     url: 'https://localhost:3000/search?view=json&q={query}',
+  //     'set loading': true,
+  //   },
+  //   fields: {
+  //     image: 'thumbnail',
+  //     results: 'results',
+  //     title: 'title',
+  //     // categories      : 'results',
+  //     // categoryName    : 'name',
+  //     // categoryResults : 'results',
+  //     // description     : 'description',
+  //     // price           : 'price',
+  //     // action          : 'action',
+  //     // actionText      : 'text',
+  //     // url             : 'url',
+  //   },
+  // });
+
+  /* !
+   *   TypeAhead JS autocomplete code
+   */
+
+  var shopifySearch = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: 'https://localhost:3000/search?view=json&q=*',
+    remote: {
+      url: 'https://localhost:3000/search?view=json&q=%QUERY%',
+      wildcard: '%QUERY%',
+    },
+  });
+
+  $('#autocomplete .prompt').typeahead({
+    highlight: true,
+    minLenght: 3,
+  },
+    {
+      name: 'search-endpoint',
+      display: 'title',
+      source: shopifySearh,
+      templates: {
+        suggestion: Handlebars.compile('<div class="position-wrapper">'+
+                                        '<div class="poosition-info-wrapper">'+
+                                            '<span>{{Title}}</span>'+
+                                        '</div>'+
+                                       '</div>'),
+        notFound: function(){
+          var ps=$('#Position').val();
+          $('#PositionId').val("");
+          return "<div class='position-wrapper'><p>No Position found.</p><a class='ad-ps'>" +
+                  "<i class='fa fa-user-secret'></i> Add New Position</a></div>";
+        },
+      });
+});

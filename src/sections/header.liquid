@@ -123,7 +123,7 @@
 <div class="pusher">
   <div class="ui inverted vertical segment">
     <div class="ui container">
-      <div class="ui large secondary inverted menu">
+      <div class="ui inverted secondary menu">
         <div class="header item"> Shopify Semantic UI</li>
         {% for link in linklists[section.settings.main_linklist].links %}
           {%- assign child_list_handle = link.title | handleize -%}
@@ -143,11 +143,13 @@
             </div>
           {% endif %}
         {% endfor %}
-        <div class="ui right item">
-          <div class="ui transparent inverted left icon input">
-            <i class="search icon"></i>
-            <input class="prompt" name="q" type="text" placeholder="{{ 'general.search.placeholder' | t }}" value="{{ search.terms | escape }}">
-            <div class="results"></div>
+        <div class="ui right inverted menu">
+          <div class="item">
+            <div id="autocomplete" class="ui search transparent inverted left icon input">
+              <i class="search icon"></i>
+              <input class="prompt" id="searchq" name="q" type="text" placeholder="{{ 'general.search.placeholder' | t }}" value="{{ search.terms | escape }}">
+              <div class="results"></div>
+            </div>
           </div>
           <div class="ui dropdown item">
             Simple search
