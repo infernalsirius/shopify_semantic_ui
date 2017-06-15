@@ -91,3 +91,5 @@ typings/
 /dist
 /searchResponse.json
 /src/assets/algolia_config.js.liquid
+/products.sketch
+/svg exports
