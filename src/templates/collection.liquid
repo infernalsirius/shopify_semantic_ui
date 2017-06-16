@@ -1,46 +1,30 @@
 <div class="ui container vertical segment">
-    <header role="banner">
-      <h1>{{ collection.title }}</h1>
-      {% if collection.description != blank %}
-        <div class="rte">
-          {{ collection.description }}
-        </div>
-      {% endif %}
-      {% if collection.all_tags.size > 0 %}
-        <ul>
-          {% for tag in collection.all_tags %}
-            {% if current_tags contains tag %}
-              <li class="active">
-                {{ tag | link_to_remove_tag: tag }}
-              </li>
-            {% else %}
-              <li>
-                {{ tag | link_to_tag: tag }}
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-      {% endif %}
-    </header>
-
-  <div class="ui grid">
+  <header role="banner">
+    <h1>{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="rte header">
+        <h5>{{ collection.description }}</h5>
+      </div>
+    {% endif %}
+  </header>
+</div>
+<div class="ui container vertical segment">
+  <div class="ui four cards">
     {% paginate collection.products by 12 %}
       {% for product in collection.products %}
-        <div class="four wide column">
-          <a class="ui medium image" href="{{ product.url | within: collection }}">
+        <div class="ui raised card">
+          <div class="image">
             <img src="{{ product.featured_image.src | img_url: '480x480' }}" alt="{{ product.featured_image.alt | escape }}">
-          </a>
+          </div>
           <div class="content">
-            <div class="header">
-              <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
-            </div>
+            <a class="header" href="{{ product.url | within: collection }}">{{ product.title }}</a>
             <div class="meta">
               {% if product.compare_at_price > product.price %}
                 {% if product.price_varies %}
                   {%- assign sale_price = product.price | money -%}
                   {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
                 {% else %}
-                  {{ 'products.product.on_sale' | t }}
+                  <strong>{{ 'products.product.on_sale' | t }}</strong>
                   {{ product.price | money }}
                 {% endif %}
               {% else %}
@@ -53,45 +37,27 @@
               {% endif %}
 
               {% if product.compare_at_price > product.price %}
-                <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
-                <s>{{ product.compare_at_price | money }}</s>
+                  <i><span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span></i>
+                  <i><s>{{ product.compare_at_price | money }}</s></i>
               {% endif %}
 
               {% unless product.available %}
                 {{ 'products.product.sold_out' | t }}
               {% endunless %}
             </div>
-            <div class="description"></div>
+            <div class="description">
+              {{ product.description}}
+            </div>
+          </div>
+          <div class="extra content">
+            <strong>Product SKU: </strong>{{ product.variants.first.sku }}
           </div>
         </div>
-
-
-        {% else %}
-          {% if collection.handle == 'all' and collection.all_vendors.size == 0 and collection.all_types.size == 0 %}
-            {% for i in (1..8) %}
-              <a href="#">
-                {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
-                {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg placeholder-svg--small' }}
-              </a>
-
-              <p>
-                <a href="#">{{ 'homepage.onboarding.product_title' | t }}</a>
-              </p>
-
-              <p>
-                {{ 1999 | money }}
-              </p>
-            {% endfor %}
-          {% else %}
-            <p>{{ 'collections.general.no_matches' | t }}</p>
-          {% endif %}
-
-        {% endfor %}
-      </div>
+      {% endfor %}
+  </div>
 
       {% if paginate.pages > 1 %}
         {% include 'pagination' %}
       {% endif %}
     {% endpaginate %}
-  </div>
 </div>
