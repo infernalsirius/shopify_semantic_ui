@@ -1,10 +1,14 @@
+// =require vendor/handlebars.min-latest.js
 // =require vendor/jquery.min.js
+// =require vendor/jquery.pick.js
 // =require vendor/modernizr.min.js
 // =require vendor/semantic-js/semantic.min.js
 // =require vendor/typeahead-js/typeahead.jquery.min.js
 // =require vendor/typeahead-js/bloodhound.min.js
 
 $(document).ready(function() {
+
+  $('.cards > .card').pick(3);
 
   /* !
    *   Semantic UI dropdown code
@@ -77,21 +81,22 @@ $(document).ready(function() {
     highlight: true,
     minLenght: 3,
   },
-    {
-      name: 'search-endpoint',
-      display: 'title',
-      source: shopifySearh,
-      templates: {
+  {
+    name: 'search-endpoint',
+    display: 'title',
+    source: shopifySearch,
+    templates: {
         suggestion: Handlebars.compile('<div class="position-wrapper">'+
                                         '<div class="poosition-info-wrapper">'+
                                             '<span>{{Title}}</span>'+
                                         '</div>'+
                                        '</div>'),
-        notFound: function(){
-          var ps=$('#Position').val();
-          $('#PositionId').val("");
-          return "<div class='position-wrapper'><p>No Position found.</p><a class='ad-ps'>" +
-                  "<i class='fa fa-user-secret'></i> Add New Position</a></div>";
-        },
-      });
+      notFound: function(){
+        var ps=$('#Position').val();
+        $('#PositionId').val("");
+        return "<div class='position-wrapper'><p>No Position found.</p><a class='ad-ps'>" +
+                "<i class='fa fa-user-secret'></i> Add New Position</a></div>";
+      },
+    }
+  });
 });
