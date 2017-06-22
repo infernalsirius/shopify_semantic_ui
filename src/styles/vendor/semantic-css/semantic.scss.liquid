@@ -7149,64 +7149,21 @@ a.ui.inverted.grey.header:hover {
              Icon
 *******************************/
 
-
-{% capture font_url %}{{ 'icons.eot' | asset_url | replace: 'http://','https://' }}{% endcapture %}
-{% assign words = font_url | split: '?' %}
-{% capture font_url_eot %}{{ words.first }}{% endcapture %}
-
-{% capture font_url %}{{ 'icons.otf' | asset_url | replace: 'http://','https://' }}{% endcapture %}
-{% assign words = font_url | split: '?' %}
-{% capture font_url_eot %}{{ words.first }}{% endcapture %}
-
-{% capture font_url %}{{ 'icons.woff' | asset_url | replace: 'http://','https://' }}{% endcapture %}
-{% assign words = font_url | split: '?' %}
-{% capture font_url_woff %}{{ words.first }}{% endcapture %}
-
-{% capture font_url %}{{ 'icons.woff2' | asset_url | replace: 'http://','https://' }}{% endcapture %}
-{% assign words = font_url | split: '?' %}
-{% capture font_url_woff %}{{ words.first }}{% endcapture %}
-
-{% capture font_url %}{{ 'icons.ttf' | asset_url | replace: 'http://','https://' }}{% endcapture %}
-{% assign words = font_url | split: '?' %}
-{% capture font_url_ttf %}{{ words.first }}{% endcapture %}
-
-{% capture font_url %}{{ 'icons.svg' | asset_url | replace: 'http://','https://' }}{% endcapture %}
-{% assign words = font_url | split: '#' %}
-{% capture font_url_svg %}{{ words.first }}{% endcapture %}
-
 @font-face {
   font-family: 'Icons';
-  src: url("{{ font_url_eot}}");
-  src: url("{{ font_url_eot}}?#iefix") format('embedded-opentype'),
-    url("{{ font_url_woff2 }}") format('woff2'),
-    url("{{ font_url_woff }}") format('woff'),
-    url("{{ font_url_otf }}") format('opentype'),
-    url("{{ font_url_ttf }}") format('truetype'),
-    url("{{ font_url_svg }}#icons") format('svg');
+  src: url("{{ 'icons.eot' | asset_url}}");
+  src: url("{{ 'icons.eot' | asset_url}}?#iefix") format('embedded-opentype'),
+    url("{{ 'icons.woff2' | asset_url}}") format('woff2'),
+    url("{{ 'icons.woff' | asset_url}}") format('woff'),
+    url("{{ 'icons.otf' | asset_url}}") format('opentype'),
+    url("{{ 'icons.ttf' | asset_url}}") format('truetype'),
+    url("{{ 'icons.svg' | asset_url}}#icons") format('svg');
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
   text-decoration: inherit;
   text-transform: none;
 }
-
-
-
-// @font-face {
-//   font-family: 'Icons';
-//   src: url({{ "icons.eot" | asset_url }});
-//   src: url({{"icons.eot?#iefix" | asset_url }}) format('embedded-opentype'),
-//     url({{ "icons.woff2" | asset_url }}) format('woff2'),
-//     url({{ "icons.woff" | asset_url }}) format('woff'),
-//     url({{ "icons.ttf" | asset_url }}) format('truetype'),
-//     url({{ "icons.svg#icons" | asset_url }}) format('svg'),
-//     url("icons.otf") format('opentype');
-//   font-style: normal;
-//   font-weight: normal;
-//   font-variant: normal;
-//   text-decoration: inherit;
-//   text-transform: none;
-// }
 
 i.icon {
   display: inline-block;
