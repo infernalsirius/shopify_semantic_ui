@@ -1,14 +1,11 @@
 // =require vendor/handlebars.min-latest.js
 // =require vendor/jquery.min.js
-// =require vendor/jquery.pick.js
 // =require vendor/modernizr.min.js
 // =require vendor/semantic-js/semantic.min.js
 // =require vendor/typeahead-js/typeahead.jquery.min.js
 // =require vendor/typeahead-js/bloodhound.min.js
 
 $(document).ready(function() {
-
-  $('.cards > .card').pick(3);
 
   /* !
    *   Semantic UI dropdown code
